@@ -22,6 +22,7 @@ const Header = () => {
           </button>
         </div>
 
+
         {/* INPUT BLOCK */}
         <div className="flex mt-4 lg:mt-0 space-x-6">
           {/* Signup */}
