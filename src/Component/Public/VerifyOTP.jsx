@@ -1,17 +1,22 @@
+import axios from 'axios';
 import React, { useState, useRef } from 'react';
 
 const VerifyOTP = () => {
-  const [otp, setOTP] = useState(['', '', '', '', '', '']);
+  const email = sessionStorage.getItem('email');
+  const [otp, setOTP] = useState([null, null, null, null, null, null]);
   const otpInputs = useRef([]);
 
   const handleChange = (index, value) => {
-    const newOTP = [...otp];
-    newOTP[index] = value;
-    setOTP(newOTP);
+    // Ensure that only numeric values are accepted
+    if (!isNaN(value) && value !== '') {
+      const newOTP = [...otp];
+      newOTP[index] = value;
+      setOTP(newOTP);
 
-    // Focus next input
-    if (value !== '' && index < otp.length - 1) {
-      otpInputs.current[index + 1].focus();
+      // Focus next input
+      if (index < otp.length - 1) {
+        otpInputs.current[index + 1].focus();
+      }
     }
   };
 
@@ -22,10 +27,30 @@ const VerifyOTP = () => {
     }
   };
 
-  const handleVerifyOTP = () => {
-    const enteredOTP = otp.join('');
-    // Logic to verify the entered OTP
-    console.log('Entered OTP:', enteredOTP);
+  const handleVerifyOTP = async () => {
+    const enteredOTP = otp.map(digit => digit !== null ? digit.toString() : '').join('');
+
+    const URL = "http://localhost:8080/api/v1/verify-otp";
+    const body = {
+      email: email,
+      otp: enteredOTP
+    };
+
+    const headers = {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+
+    try {
+      const response = await axios.post(URL, body, headers);
+      console.log('OTP Verified:', response.data); // Log the response data
+      // Optionally, you can display a success message to the user
+    } catch (error) {
+      console.error('OTP Verification failed:', error.response.data); // Log the error response
+      // Optionally, you can display an error message to the user
+    }
+    console.log('OTP Entered:',otp)
   };
 
   const handleResendOTP = () => {
@@ -42,12 +67,12 @@ const VerifyOTP = () => {
           {otp.map((digit, index) => (
             <input
               key={index}
-              ref={(ref) => (otpInputs.current[index] = ref)}
+              ref={ref => (otpInputs.current[index] = ref)}
               type="number"
               maxLength="1"
               value={digit}
-              onChange={(e) => handleChange(index, e.target.value)}
-              onKeyDown={(e) => handleKeyDown(index, e)}
+              onChange={e => handleChange(index, e.target.value)}
+              onKeyDown={e => handleKeyDown(index, e)}
               className="w-12 h-12 text-3xl text-center border rounded mx-1 focus:outline-none focus:ring focus:border-blue-500"
             />
           ))}
@@ -56,7 +81,7 @@ const VerifyOTP = () => {
           Validate
         </button>
         <div className="text-center">
-          <a href="#"  onClick={handleResendOTP} className="text-blue-500 font-semibold hover:text-blue-600">
+          <a href="#" onClick={handleResendOTP} className="text-blue-500 font-semibold hover:text-blue-600">
             Resend OTP
           </a>
         </div>

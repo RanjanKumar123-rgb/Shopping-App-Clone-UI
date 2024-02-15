@@ -1,8 +1,11 @@
+import axios from 'axios';
 import React, { useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 
-const Register = (role) => {
+const Register = ({ role }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const Navigate = useNavigate();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -12,13 +15,35 @@ const Register = (role) => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     console.log('Form submitted');
     console.log('Email:', email);
     console.log('Password:', password);
-    console.log(role);
+    console.log('Role:', role);
+
+    const URL = "http://localhost:8080/api/v1/register";
+    const body = {
+      email: email,
+      password: password,
+      userRole: role
+    };
+
+    const headers = {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+
+    try {
+      const response = await axios.post(URL, body, headers);
+      console.log('Registration successful:', response.data); 
+      sessionStorage.setItem("email", response.data.data.email);
+      Navigate("/verify-otp");
+    } catch (error) {
+      console.error('Registration failed:', error.response.data); 
+    }
   };
 
   return (
