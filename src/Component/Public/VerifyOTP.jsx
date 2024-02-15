@@ -44,11 +44,10 @@ const VerifyOTP = () => {
 
     try {
       const response = await axios.post(URL, body, headers);
-      console.log('OTP Verified:', response.data); // Log the response data
-      // Optionally, you can display a success message to the user
+      console.log('OTP Verified:', response.data); 
+      sessionStorage.removeItem("email");
     } catch (error) {
-      console.error('OTP Verification failed:', error.response.data); // Log the error response
-      // Optionally, you can display an error message to the user
+      console.error('OTP Verification failed:', error.response.data); 
     }
     console.log('OTP Entered:',otp)
   };
