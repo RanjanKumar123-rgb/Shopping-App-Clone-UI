@@ -1,18 +1,40 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Register = ({ role }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const Navigate = useNavigate();
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  const validateEmail = (value) => {
+    const emailRegex = /^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/;
+    if (!emailRegex.test(value)) {
+      setEmailError('Invalid email format');
+    } else {
+      setEmailError('');
+    }
+  };
+
+  const validatePassword = (value) => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\S]{8,}$/;
+    if (!passwordRegex.test(value)) {
+      setPasswordError('Password must contain at least 8 characters, one uppercase letter, one lowercase letter, and one digit');
+    } else {
+      setPasswordError('');
+    }
+  };
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
+    validateEmail(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
+    validatePassword(e.target.value);
   };
 
   const handleSubmit = async (e) => {
@@ -22,6 +44,18 @@ const Register = ({ role }) => {
     console.log('Email:', email);
     console.log('Password:', password);
     console.log('Role:', role);
+
+    // Will Reset previous error messages
+    setEmailError('');
+    setPasswordError('');
+
+    validateEmail(email);
+    validatePassword(password);
+
+    // if (emailError || passwordError) {
+    //   return;
+    // }
+
 
     const URL = "http://localhost:8080/api/v1/register";
     const body = {
@@ -54,10 +88,12 @@ const Register = ({ role }) => {
           <div className="mb-4">
             <label className="block mb-1 font-semibold">Email:</label>
             <input type="email" value={email} placeholder="Email" onChange={handleEmailChange} className="w-full p-2 border rounded-md" required />
+            {emailError && <p className="text-red-500">{emailError}</p>}
           </div>
           <div className="mb-4">
             <label className="block mb-1 font-semibold">Password:</label>
             <input type="password" placeholder="Password" value={password} onChange={handlePasswordChange} className="w-full p-2 border rounded-md" required />
+            {passwordError && <p className="text-red-500">{passwordError}</p>}
           </div>
           <button type="submit" className="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600">
             Register
