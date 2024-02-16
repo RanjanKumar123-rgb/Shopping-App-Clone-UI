@@ -4,7 +4,7 @@ import Header from '../Util/Header'
 const Home = () => {
   return (
     <div>
-      <Header/>
+      Home
     </div>
   )
 }

@@ -1,10 +1,12 @@
 import axios from 'axios';
 import React, { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const VerifyOTP = () => {
   const email = sessionStorage.getItem('email');
   const [otp, setOTP] = useState([null, null, null, null, null, null]);
   const otpInputs = useRef([]);
+  const Navigate = useNavigate();
 
   const handleChange = (index, value) => {
     // Ensure that only numeric values are accepted
@@ -46,10 +48,11 @@ const VerifyOTP = () => {
       const response = await axios.post(URL, body, headers);
       console.log('OTP Verified:', response.data); 
       sessionStorage.removeItem("email");
+      Navigate("/login");
     } catch (error) {
       console.error('OTP Verification failed:', error.response.data); 
     }
-    console.log('OTP Entered:',otp)
+    console.log('OTP Entered:',otp);
   };
 
   const handleResendOTP = () => {
