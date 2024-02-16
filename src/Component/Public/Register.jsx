@@ -52,10 +52,10 @@ const Register = ({ role }) => {
     validateEmail(email);
     validatePassword(password);
 
-    // if (emailError || passwordError) {
-    //   return;
-    // }
-
+    // Wont allow to login if there are validation errors
+    if (emailError || passwordError) {
+      return; // Exit early if there are validation errors
+    }
 
     const URL = "http://localhost:8080/api/v1/register";
     const body = {

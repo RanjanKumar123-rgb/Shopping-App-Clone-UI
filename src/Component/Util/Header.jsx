@@ -26,13 +26,13 @@ const Header = () => {
         {/* INPUT BLOCK */}
         <div className="flex mt-4 lg:mt-0 space-x-6">
           {/* Signup */}
-          <Link to={'/'} className="hover:underline">Sign up</Link>
+          <Link to={'/customer/register'} className="hover:underline">Sign up</Link>
 
           {/* Login */}
-          <Link to={'/'} className="hover:underline">Login</Link>
+          <Link to={'/login'} className="hover:underline">Login</Link>
 
           {/* Become a seller */}
-          <Link to={'/'} className="hover:underline">Become a seller</Link>
+          <Link to={'/seller/register'} className="hover:underline">Become a seller</Link>
 
           {/* Cart */}
           <Link to={'/'} className="hover:underline">Cart</Link>
