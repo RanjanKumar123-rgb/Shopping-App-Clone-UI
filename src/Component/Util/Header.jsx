@@ -28,14 +28,14 @@ const Header = () => {
           {/* Signup */}
           <Link to={'/customer/register'} className="hover:underline">Sign up</Link>
 
-          {/* Login */}
-          <Link to={'/login'} className="hover:underline">Login</Link>
-
           {/* Become a seller */}
           <Link to={'/seller/register'} className="hover:underline">Become a seller</Link>
 
           {/* Cart */}
           <Link to={'/'} className="hover:underline">Cart</Link>
+
+          {/* Login */}
+          <Link to={'/login'} className="hover:underline">Login</Link>
         </div>
       </nav>
     </header>
