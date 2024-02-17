@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import  { createContext, useContext, useEffect, useState } from "react";
 
-const authContext = createContext({});
+export const AuthContext = createContext({});
 
 const AuthProvider = ({ children }) => {
   // Destructure children properly
@@ -18,12 +18,11 @@ const AuthProvider = ({ children }) => {
   }, [auth]);
 
   return (
-    <authContext.Provider value={{ auth, setAuth }}>
+    <AuthContext.Provider value={{ auth, setAuth }}>
       {children}
-    </authContext.Provider>
+    </AuthContext.Provider>
   );
 };
 
 export default AuthProvider;
 
-export const useAuth = () => useContext(authContext);

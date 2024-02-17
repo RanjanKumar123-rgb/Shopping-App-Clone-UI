@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../Context/AuthProvider'
+import { useAuth } from '../Context/useAuth';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -64,14 +64,15 @@ const Login = () => {
       password: password,
     };
 
-    const headers = {
+    const header = {
       headers: {
         "Content-Type": "application/json"
-      }
+      },
+      withCredentials:true,
     };
 
     try {
-      const response = await axios.post(URL, body, headers);
+      const response = await axios.post(URL, body, header);
       if(response.status === 200)
       {
         console.log('Login successful:', response.data);
@@ -83,13 +84,13 @@ const Login = () => {
           accessExpiration:response.data.data.accessExpiration,
           refreshExpiration:response.data.data.refreshExpiration
         }
-        setAuth(user);
         localStorage.setItem("user", JSON.stringify(user));
+        setAuth(user);
         console.log(auth);
         Navigate("/")
       }
     } catch (error) {
-      console.error('Login failed:', error.response.data);
+      console.error('Login failed:', error);
     }
   };
 
