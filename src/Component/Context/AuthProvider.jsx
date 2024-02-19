@@ -1,9 +1,10 @@
-import  { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import DoRefreshLogin from "./DoRefreshLogin";
 
 export const AuthContext = createContext({});
 
 const AuthProvider = ({ children }) => {
-  // Destructure children properly
+  let isRefreshRequested = false;
   const [auth, setAuth] = useState({
     userId: "",
     username: "",
@@ -13,9 +14,25 @@ const AuthProvider = ({ children }) => {
     refreshExpiration: "",
   });
 
+  const { validateAndRefresh } = DoRefreshLogin();
+
+  const refresh = async () => {
+    const data = await validateAndRefresh();
+    if(data){
+      setAuth({...data})
+    }
+  };
+
   useEffect(() => {
-    console.log("Auth state updated:", auth);
-  }, [auth]);
+    if (!isRefreshRequested) {
+      isRefreshRequested = true;
+      refresh();
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log(auth)
+  },[auth])
 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>
@@ -25,4 +42,3 @@ const AuthProvider = ({ children }) => {
 };
 
 export default AuthProvider;
-

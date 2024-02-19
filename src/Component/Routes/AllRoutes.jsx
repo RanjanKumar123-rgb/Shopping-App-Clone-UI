@@ -2,15 +2,22 @@
 import { Route, Routes } from "react-router-dom";
 import navs from "./Navigation";
 import App from "./../../App";
-
-const auth = JSON.parse(localStorage.getItem("user"))
+import { useAuth } from "../Context/useAuth";
 
 const AllRoutes = () => {
-  // const { auth } = useAuth();
-  // console.log({useAuth:useAuth()})
+  const { auth } = useAuth();
+
+  // const defaultAuth = {
+  //   userId: "",
+  //   username: "",
+  //   role: "CUSTOMER",
+  //   isAuthenticated: false,
+  //   accessExpiration: "",
+  //   refreshExpiration: "",
+  // }
+
   const { role, isAuthenticated } = auth;
 
-  const routes = () => {
     return (
       <Routes>
         <Route path={"/"} element={<App />}>
@@ -34,8 +41,6 @@ const AllRoutes = () => {
         </Route>
       </Routes>
     );
-  };
-  return routes();
 };
 
 export default AllRoutes;
