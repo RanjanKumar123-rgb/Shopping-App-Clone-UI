@@ -12,6 +12,7 @@ const AuthProvider = ({ children }) => {
     isAuthenticated: false,
     accessExpiration: "",
     refreshExpiration: "",
+    login: false
   });
 
   const { validateAndRefresh } = DoRefreshLogin();

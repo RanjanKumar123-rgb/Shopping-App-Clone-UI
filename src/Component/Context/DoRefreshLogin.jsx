@@ -29,7 +29,8 @@ const DoRefreshLogin = () => {
             role:response.data.data.role,
             isAuthenticated:response.data.data.authenticated,
             accessExpiration:response.data.data.accessExpiration,
-            refreshExpiration:response.data.data.refreshExpiration
+            refreshExpiration:response.data.data.refreshExpiration,
+            login:true
           }
           localStorage.setItem("user", JSON.stringify(user));
         return user;
@@ -43,7 +44,6 @@ const DoRefreshLogin = () => {
     console.log("Validating...")
     const userString = localStorage.getItem("user");
     if (userString !== null) {
-        console.log("second")
       const user = JSON.parse(userString);
       if (new Date(user.refreshExpiration) > new Date()) {
         console.log("Refresh Token not expired")
@@ -52,9 +52,11 @@ const DoRefreshLogin = () => {
             console.log(user);
           return user;
         } else return await refresh();
-      } else navigate("/login");
+      } else {
+        localStorage.removeItem("user");
+        navigate("/login");
+      }
     } else {
-        console.log("third")
         navigate("/");
     }
   };

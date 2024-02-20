@@ -44,7 +44,7 @@ const navs = [
   },
     // -------------------------- BEFORE AND AFTER AUTH ----------------
   {
-    path: "/",
+    path: "/home",
     element: <Home />,
     requireAuth: false,
     isVisibleAfterAuth: true,

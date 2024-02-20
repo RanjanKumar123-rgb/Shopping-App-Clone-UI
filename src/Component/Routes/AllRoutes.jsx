@@ -6,16 +6,6 @@ import { useAuth } from "../Context/useAuth";
 
 const AllRoutes = () => {
   const { auth } = useAuth();
-
-  // const defaultAuth = {
-  //   userId: "",
-  //   username: "",
-  //   role: "CUSTOMER",
-  //   isAuthenticated: false,
-  //   accessExpiration: "",
-  //   refreshExpiration: "",
-  // }
-
   const { role, isAuthenticated } = auth;
 
     return (
