@@ -9,7 +9,7 @@ import AuthProvider from "./Component/Context/AuthProvider";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
-      <AuthProvider children={<AllRoutes/>}/>
+      <AuthProvider children={<AllRoutes/>}></AuthProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

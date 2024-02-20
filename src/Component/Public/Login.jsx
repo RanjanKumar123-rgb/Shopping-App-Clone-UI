@@ -80,14 +80,21 @@ const Login = () => {
           userId:response.data.data.userId,
           username:response.data.data.username,
           role:response.data.data.role,
-          isAuthenticated:response.data.data.authenticated,
           accessExpiration:response.data.data.accessExpiration,
-          refreshExpiration:response.data.data.refreshExpiration
+          refreshExpiration:response.data.data.refreshExpiration,
+          isAuthenticated:true,
+          login:true
         }
         localStorage.setItem("user", JSON.stringify(user));
-        setAuth(user);
+        setAuth({...user});
         console.log(auth);
-        Navigate("/")
+        if(user.role==="SELLER"){
+          Navigate("/seller-dashboard")
+        }else{
+          Navigate("/")
+        }
+      }else{
+        Navigate("/search")
       }
     } catch (error) {
       console.error('Login failed:', error);
