@@ -11,6 +11,8 @@ import EditProfile from './../Private/Common/EditProfile';
 import Cart from './../Private/Customer/Cart';
 import Order from './../Private/Customer/Order';
 import Wishlist from '../Private/Customer/Wishlist'
+import AddStore from '../Private/Seller/AddStore'
+import AddAddress from '../Private/Seller/AddAddress'
 
 const navs = [
     // ----------------------- BEFORE AUTH --------------------------- 
@@ -103,8 +105,29 @@ const navs = [
     role: "SELLER",
   },
   {
+    path: "/add-store",
+    element: <AddStore />,
+    requireAuth: true,
+    isVisibleAfterAuth: true,
+    role: "SELLER",
+  },
+  {
+    path: "/add-address",
+    element: <AddAddress />,
+    requireAuth: true,
+    isVisibleAfterAuth: true,
+    role: "SELLER",
+  },
+  {
     path: "/seller-orders",
     element: <SellerOrder />,
+    requireAuth: true,
+    isVisibleAfterAuth: true,
+    role: "SELLER",
+  },
+  {
+    path: "/add-store",
+    element: <AddStore />,
     requireAuth: true,
     isVisibleAfterAuth: true,
     role: "SELLER",

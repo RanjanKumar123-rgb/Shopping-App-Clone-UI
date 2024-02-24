@@ -1,31 +1,34 @@
-import axios from 'axios';
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../Context/useAuth';
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../Context/useAuth";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const {auth, setAuth}= useAuth();
-  const Navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const { auth, setAuth } = useAuth();
+  let Navigate = useNavigate();
 
   const validateEmail = (value) => {
-    const emailRegex = /^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/;
+    const emailRegex =
+      /^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/;
     if (!emailRegex.test(value)) {
-      setEmailError('Invalid email format');
+      setEmailError("Invalid email format");
     } else {
-      setEmailError('');
+      setEmailError("");
     }
   };
 
   const validatePassword = (value) => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\S]{8,}$/;
     if (!passwordRegex.test(value)) {
-      setPasswordError('Password must contain at least 8 characters, one uppercase letter, one lowercase letter, and one digit');
+      setPasswordError(
+        "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, and one digit"
+      );
     } else {
-      setPasswordError('');
+      setPasswordError("");
     }
   };
 
@@ -42,13 +45,13 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log('Login Requested');
-    console.log('Email:', email);
-    console.log('Password:', password);
+    console.log("Login Requested");
+    console.log("Email:", email);
+    console.log("Password:", password);
 
     // Will Reset previous error messages
-    setEmailError('');
-    setPasswordError('');
+    setEmailError("");
+    setPasswordError("");
 
     validateEmail(email);
     validatePassword(password);
@@ -57,7 +60,6 @@ const Login = () => {
     if (emailError || passwordError) {
       return; // Exit early if there are validation errors
     }
-
     const URL = "http://localhost:8080/api/v1/login";
     const body = {
       email: email,
@@ -66,71 +68,95 @@ const Login = () => {
 
     const header = {
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      withCredentials:true,
+      withCredentials: true,
     };
 
     try {
       const response = await axios.post(URL, body, header);
-      if(response.status === 200)
-      {
-        console.log('Login successful:', response.data);
+      if (response.status === 200) {
+        console.log("Login successful:", response.data);
         const user = {
-          userId:response.data.data.userId,
-          username:response.data.data.username,
-          role:response.data.data.role,
-          accessExpiration:response.data.data.accessExpiration,
-          refreshExpiration:response.data.data.refreshExpiration,
-          isAuthenticated:true,
-          login:true
-        }
+          userId: response.data.data.userId,
+          username: response.data.data.username,
+          role: response.data.data.role,
+          accessExpiration: response.data.data.accessExpiration,
+          refreshExpiration: response.data.data.refreshExpiration,
+          isAuthenticated: true,
+          login: true,
+        };
         localStorage.setItem("user", JSON.stringify(user));
-        setAuth({...user});
+        setAuth({ ...user });
         console.log(auth);
-        if(user.role==="SELLER"){
-          Navigate("/seller-dashboard")
-        }else{
-          Navigate("/")
-        }
-      }else{
-        Navigate("/search")
+        if (user.role === "SELLER") {
+          console.log("Seller ID", user.userId);
+          const URL2 = `http://localhost:8080/api/v1/sellerId/${user.userId}/stores`;
+          const response2 = await axios.get(URL2, header);
+          console.log("Response 2 Data: ", response2.data);
+          if (!response2.data.data) Navigate("/add-store");
+          else Navigate("/seller-dashboard");
+        } else Navigate("/");
+      } else {
+        Navigate("/search");
       }
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error("Login failed:", error);
     }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="max-w-md mx-auto p-6 bg-gray-100 rounded-md">
-          <h2 className="text-2xl font-bold mb-4">Login Form</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-                Email
-              </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="email"  type="email"  placeholder="Email"  value={email}  onChange={handleEmailChange}  required/>
-                {emailError && <p className="text-red-500">{emailError}</p>}
-            </div>
+        <h2 className="text-2xl font-bold mb-4">Login Form</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="email"
+            >
+              Email
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="email"
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={handleEmailChange}
+              required
+            />
+            {emailError && <p className="text-red-500">{emailError}</p>}
+          </div>
 
-            <div className="mb-6">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-                Password
-              </label>
-              <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                id="password" type="password" placeholder="Password" value={password} onChange={handlePasswordChange}  required/>
-                {passwordError && <p className="text-red-500">{passwordError}</p>}
-            </div>
+          <div className="mb-6">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="password"
+            >
+              Password
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+              id="password"
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={handlePasswordChange}
+              required
+            />
+            {passwordError && <p className="text-red-500">{passwordError}</p>}
+          </div>
 
-            <div className="flex items-center justify-between">
-              <button type="submit" className=" w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                Log In
-              </button>
-            </div>
-          </form>
+          <div className="flex items-center justify-between">
+            <button
+              type="submit"
+              className=" w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              Log In
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

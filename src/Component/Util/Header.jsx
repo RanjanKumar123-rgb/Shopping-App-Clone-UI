@@ -71,12 +71,19 @@ const Header = () => {
   ];
 
   return (
-    <header className="head bg-blue-900 flex justify-between items-center h-20 px-8">
+    <header className="head bg-blue-600 flex justify-between items-center h-20 px-8">
       <div className="flex items-center">
-        {/* LOGO */}
-        <Link to={"/"}>
+      {/* LOGO */}
+      {role === "SELLER" ? (
+        <Link to={"/seller-dashboard"}>
           <img src={logo} alt="" className="w-24 h-auto text-white" />
         </Link>
+      ) : (
+        <Link to={"/home"}>
+          <img src={logo} alt="" className="w-24 h-auto text-white" />
+        </Link>
+      )}
+
       </div>
       {/* SEARCH BAR */}
       <div className="flex flex-grow justify-center mx-8">
@@ -94,7 +101,7 @@ const Header = () => {
           if (button.isLogin === login && (button.role === "ALL" || button.role === role)) {
             return (
               <Link key={i} to={button.link}>
-                <button className="button-blue h-7 w-auto m-2 text-black-700 hover:text-white font-semibold ">
+                <button className="button-blue h-7 w-auto m-2 text-black-700 hover:text-white font-medium hover:underline hover:font-bold">
                   {button.buttonName}
                 </button>
               </Link>
