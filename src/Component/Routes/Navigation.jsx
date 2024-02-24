@@ -13,6 +13,7 @@ import Order from './../Private/Customer/Order';
 import Wishlist from '../Private/Customer/Wishlist'
 import AddStore from '../Private/Seller/AddStore'
 import AddAddress from '../Private/Seller/AddAddress'
+import AddContact from '../Private/Seller/AddContact'
 
 const navs = [
     // ----------------------- BEFORE AUTH --------------------------- 
@@ -126,8 +127,8 @@ const navs = [
     role: "SELLER",
   },
   {
-    path: "/add-store",
-    element: <AddStore />,
+    path: "/add-contact",
+    element: <AddContact />,
     requireAuth: true,
     isVisibleAfterAuth: true,
     role: "SELLER",

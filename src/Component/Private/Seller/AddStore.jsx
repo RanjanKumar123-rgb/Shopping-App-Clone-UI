@@ -34,8 +34,9 @@ const AddStore = () => {
         if(nameError){
             return; // Exit early if there are validation errors
         }
-
-        const URL = "http://localhost:8080/api/v1/stores";
+        const userData = localStorage.getItem("user");
+        const user = JSON.parse(userData);
+        const URL = `http://localhost:8080/api/v1/stores/${user.userId}`;
         const body = {
         storeName: storeName,
         about: about,
@@ -52,8 +53,11 @@ const AddStore = () => {
             const response =  await axios.post(URL, body, header);
             if(response.status === 200)
             {
-                console.log('Store added', response)
-                Navigate("/seller-dashboard")
+                console.log('Store added', response.data.data)
+                const URL2 = `http://localhost:8080/api/v1/storeId/${response.data.data.storeId}/addresses`;
+                const response2 =  await axios.get(URL2, header);
+                if(!response2.data.data) Navigate("/add-address");
+                else Navigate("/seller-dashboard");
             }
         } catch (error) {
             console.log('Error adding store', error)
