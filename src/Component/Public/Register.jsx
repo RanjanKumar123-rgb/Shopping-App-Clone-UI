@@ -76,7 +76,7 @@ const Register = ({ role }) => {
       sessionStorage.setItem("email", response.data.data.email);
       Navigate("/verify-otp");
     } catch (error) {
-      console.error('Registration failed:', error.response.data); 
+      console.error('Registration failed:', error.response.data);
     }
   };
 
