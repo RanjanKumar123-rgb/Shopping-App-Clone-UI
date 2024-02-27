@@ -26,7 +26,7 @@ const UploadImage = () => {
     const URL = `http://localhost:8080/api/v1/sellerId/${user.userId}/stores`;
     const header = {
       headers: {
-        "Content-Type": "multipart/form-data", // Change content type to multipart/form-data
+        "Content-Type": "multipart/form-data",
       },
       withCredentials: true,
     };
