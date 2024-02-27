@@ -1,21 +1,49 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const AddStore = () => {
+const EditStore = () => {
     const [nameError, setNameError] = useState('');
     const [storeName, setStoreName] = useState('');
     const [about, setAbout] = useState('');
     const Navigate = useNavigate();
 
+    useEffect(() => {
+        const fetchStoreDetails = async () => {
+            try {
+                const userData = localStorage.getItem("user");
+                const user = JSON.parse(userData);
+                const URL = `http://localhost:8080/api/v1/sellerId/${user.userId}/stores`;
+                const header = {
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    withCredentials: true,
+                };
+                const response = await axios.get(URL, header);
+                if (response.status === 200) {
+                    const storeDetails = response.data.data;
+                    localStorage.setItem("store", JSON.stringify(storeDetails));
+                    setStoreName(storeDetails.storeName);
+                    setAbout(storeDetails.about);
+                }
+            } catch (error) {
+                console.log('Error fetching store details', error);
+            }
+        };
+
+        fetchStoreDetails();
+    }, []);
+
     const validateStoreName = (value) => {
         const nameRegex = /^\s*.*$/;
-        if(!nameRegex.test(value)) {
+        if (!nameRegex.test(value)) {
             setNameError('Cant be empty');
-        }else{
+        } else {
             setNameError('');
         }
     };
+
     const handleNameChange = (e) => {
         setStoreName(e.target.value)
         validateStoreName(e.target.value)
@@ -23,43 +51,41 @@ const AddStore = () => {
 
     const handleAboutChange = (e) => {
         setAbout(e.target.value);
-    }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Will Reset previous error messages
         setNameError('');
-        // Wont allow to login if there are validation errors
         validateStoreName(storeName);
-        if(nameError){
-            return; // Exit early if there are validation errors
+        if (nameError) {
+            return;
         }
-        const userData  = localStorage.getItem("user");
+        const userData = localStorage.getItem("user");
         const user = JSON.parse(userData);
         const URL = `http://localhost:8080/api/v1/stores/${user.userId}`;
         const body = {
-        storeName: storeName,
-        about: about,
+            storeName: storeName,
+            about: about,
         };
 
         const header = {
-        headers: {
-            "Content-Type": "application/json"
-        },
-        withCredentials:true,
+            headers: {
+                "Content-Type": "application/json"
+            },
+            withCredentials: true,
         };
 
         try {
-            const response =  await axios.post(URL, body, header);
-            if(response.status === 200)
-            {
+            const response = await axios.put(URL, body, header);
+            if (response.status === 200) {
                 console.log('Store Updated', response)
                 Navigate("/seller-dashboard")
             }
         } catch (error) {
             console.log('Error updating store', error)
         }
-    }
+    };
+
     return (
         <div className="flex items-center justify-center min-h-screen">
             <div className="max-w-xl mx-auto p-6 bg-gray-100 rounded-md">
@@ -95,7 +121,7 @@ const AddStore = () => {
 
                     <div className="flex items-center justify-between">
                         <button type="submit" className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                            Add
+                            Update
                         </button>
                     </div>
                 </form>
@@ -103,4 +129,4 @@ const AddStore = () => {
         </div>
     );
 };
-export default AddStore;
+export default EditStore;
