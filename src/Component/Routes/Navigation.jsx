@@ -14,6 +14,14 @@ import Wishlist from '../Private/Customer/Wishlist'
 import AddStore from '../Private/Seller/AddStore'
 import AddAddress from '../Private/Seller/AddAddress'
 import AddContact from '../Private/Seller/AddContact'
+import UpdateAddress from '../Private/Seller/EditAddress';
+import UpdateStore from '../Private/Seller/EditStore'
+import UpdateContact from '../Private/Seller/EditContact';
+import EditAddress from '../Private/Seller/EditAddress'
+import EditStore from '../Private/Seller/EditStore'
+import EditContact from '../Private/Seller/EditContact'
+import UploadImage from '../Private/Common/UploadImage'
+import AddProduct from '../Private/Seller/AddProduct'
 
 const navs = [
     // ----------------------- BEFORE AUTH --------------------------- 
@@ -71,6 +79,13 @@ const navs = [
   {
     path: "/edit-profile",
     element: <EditProfile />,
+    requireAuth: true,
+    isVisibleAfterAuth: true,
+    role: "ALL",
+  },
+  {
+    path: "/upload-image",
+    element: <UploadImage />,
     requireAuth: true,
     isVisibleAfterAuth: true,
     role: "ALL",
@@ -133,6 +148,35 @@ const navs = [
     isVisibleAfterAuth: true,
     role: "SELLER",
   },
+  {
+    path: "/edit-store",
+    element: <EditStore />,
+    requireAuth: true,
+    isVisibleAfterAuth: true,
+    role: "SELLER",
+  },
+  {
+    path: "/edit-address",
+    element: <EditAddress />,
+    requireAuth: true,
+    isVisibleAfterAuth: true,
+    role: "SELLER",
+  },
+  {
+    path: "/edit-contact",
+    element: <EditContact />,
+    requireAuth: true,
+    isVisibleAfterAuth: true,
+    role: "SELLER",
+  },
+  {
+    path: "/add-product",
+    element: <AddProduct />,
+    requireAuth: true,
+    isVisibleAfterAuth: true,
+    role: "SELLER",
+  },
+
 ];
 
 
