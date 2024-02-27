@@ -7,10 +7,7 @@ const AddProduct = () => {
     productName: '',
     productDescription: '',
     productPrice: '',
-    productQuantity: '',
-    productAvailability: '',
-    averageRating: '',
-    totalOrders: ''
+    productQuantity: ''
   });
   const Navigate = useNavigate();
   const handleChange = (e) => {
@@ -33,10 +30,7 @@ const AddProduct = () => {
       productName : product.productName,
       productDescription : product.productDescription,
       productPrice : product.productPrice,
-      productQuantity : product.productQuantity,
-      productAvailability : product.productAvailability,
-      averageRating : product.averageRating,
-      totalOrders : product.totalOrders
+      productQuantity : product.productQuantity
     };
 
     const header = {
@@ -78,23 +72,6 @@ const AddProduct = () => {
           <div className="mb-4">
             <label htmlFor="productQuantity" className="block text-sm font-medium text-gray-700">Product Quantity</label>
             <input type="number" id="productQuantity" name="productQuantity" value={product.productQuantity} onChange={handleChange} className="px-2 border h-8 mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="productAvailability" className="block text-sm font-medium text-gray-700">Product Availability</label>
-            <select id="productAvailability" name="productAvailability" value={product.productAvailability} onChange={handleChange} className="px-2 border h-9 mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
-              <option value="">Select Availability</option>
-              <option value="ACTIVE">ACTIVE</option>
-              <option value="OUT_OF_STOCK">OUT_OF_STOCK</option>
-              <option value="LOW_STOCK">LOW_STOCK</option>
-            </select>
-          </div>
-          <div className="mb-4">
-            <label htmlFor="averageRating" className="block text-sm font-medium text-gray-700">Average Rating</label>
-            <input type="number" id="averageRating" name="averageRating" value={product.averageRating} onChange={handleChange} className="px-2 border h-8 mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="totalOrders" className="block text-sm font-medium text-gray-700">Total Orders</label>
-            <input type="number" id="totalOrders" name="totalOrders" value={product.totalOrders} onChange={handleChange} className="px-2 border h-8 mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
           </div>
           <div className="flex justify-center">
             <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition duration-300">Add Product</button>
