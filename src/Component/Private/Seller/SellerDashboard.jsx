@@ -52,18 +52,6 @@ const SellerDashboard = () => {
   return (
     <div className="bg-white h-5/6 py-2 px-2 flex">
       <div className="flex flex-col space-y-6 justify-items-start">
-      <Link to="/edit-store"><button className="button-blue h-7 w-auto m-2 text-black-700 hover:text-red-500 font-medium hover:underline">
-          Edit Store
-        </button></Link>
-        <Link to="/edit-address"><button className="button-blue h-7 w-auto m-2 text-black-700 hover:text-red-500 font-medium hover:underline">
-          Edit Address
-        </button></Link>
-        <Link to="/edit-contact"><button className="button-blue h-7 w-auto m-2 text-black-700 hover:text-red-500 font-medium hover:underline">
-          Edit Contact
-        </button></Link>
-        <Link to="/upload-image"><button className="button-blue h-7 w-auto m-2 text-black-700 hover:text-red-500 font-medium hover:underline">
-          Update/Add Logo
-        </button></Link>
         <Link to="/add-product"><button className="button-blue h-7 w-auto m-2 text-black-700 hover:text-red-500 font-medium hover:underline">
           Add Product
         </button></Link>
